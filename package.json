@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Shannon-ewingsudds/FSW-135#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3",
+    "morgan": "^1.10.0"
   }
 }
