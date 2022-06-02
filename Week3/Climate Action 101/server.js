@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
-const morgan = require("morgan");
 const mongoose = require('mongoose');
+const morgan = require("morgan");
+require('dotenv').config();
+const expressJwt = require('express-jwt');
+
+
 
 const PORT = 9000;
 
@@ -14,11 +18,17 @@ app.use(morgan('dev'));
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/InventorySchema', {family: 4});
+  await mongoose.connect('mongodb://localhost:27017/UserSchema', {family: 4});
   console.log("Connected to MongoDB");
 }
 
+//Routes
+app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
 app.use('/auth', require('./routes/authRouter.js'));
+app.use('/api/users', require('./routes/userRouter.js'));
+app.use('/api/issues', require('./routes/issueRouter.js'));
+app.use('/api/comments', require('./routes/commentRouter.js'));
+
 
 //global error-handler
 app.use((err, req, res, next) => {
