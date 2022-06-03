@@ -1,53 +1,68 @@
 const express = require('express');
 const authRouter = express.Router();
-const User = require('../models/user.js');
-const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 
-// Signup
-authRouter.post("/signup", (req, res, next) => {
-    User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
-        if(err){
+//Get All
+authRouter.get('/', (req, res, next) => {
+    User.find((err, users) => {
+        if(err) {
+            res.status(500)
+            return next(err)
+        }
+        return res.status(200).send(users);
+    })
+})
+
+//Get One
+authRouter.get('/:userID', (req, res, next) => {
+    User.find({_id: req.params.userID}, (err, user) => {
+        if(err) {
             res.status(500);
             return next(err);
         }
-        if(user){
-            res.status(403);
-            return next(new Error('Username Already Exists'));
-        }
+        return res.status(200).send(user);
+    })
+});
+//Post New User
+ authRouter.post("/", (req, res, next) => {
         const newUser = new User(req.body);
         newUser.save((err, savedUser) => {
-            if(err){
-            res.status(500);
-            return next(err);
+            if(err) {
+                res.status(500)
+                return next(err)
             }
-            const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET);
-            return res.status(201).send({ token, user: savedUser.withoutPassword() });
-        });
+            return res.status(201).send(savedUser)
+        })
     });
+
+//Put User
+authRouter.put('/:userID', (req, res, next) => {
+    User.findOneAndUpdate(
+        {_id: req.params.userID},
+        req.body,
+        {new: true},
+        (err, updatedUser) => {
+            if(err) {
+                res.status(500);
+                return next(err);
+            }
+            return res.status(201).send(updatedUser)
+        }
+    )
 });
 
-// Login
-authRouter.post("/login", (req, res, next) => {
-    const failedLogin = 'Username or Password is Incorrect.'
-    User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
-        if(err){
+//Delete User
+authRouter.delete('/:userID', (req, res, next) => {
+    User.findOneAndDelete({_id: req.params.userID}, (err, deletedUser) => {
+        if(err) {
             res.status(500);
-            return next(new Error(failedLogin));
+            return next(err);
         }
-        user.checkPassword(req.body.password, (err, isMatch) =>{
-            if(err){
-                res.status(403);
-                return next(new Error(failedLogin));
-            }
-            if(!isMatch) {
-                res.status(403);
-                return next(new Error(failedLogin));
-            }
-            const token = jwt.sign(user.withoutPassword(), process.env.SECRET);
-            return res.status(200).send({ token, user: user.withoutPassword() });
-        });
-    });
+        return res.status(200).send(`Successfully deleted User ${deletedUser.username} from the database.`);
+    })
 });
 
 module.exports = authRouter;
+
+
