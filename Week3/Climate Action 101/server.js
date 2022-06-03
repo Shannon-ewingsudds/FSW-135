@@ -1,10 +1,8 @@
 const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
+require('dotenv').config()
 const morgan = require("morgan");
-require('dotenv').config();
-const expressJwt = require('express-jwt');
-
+const mongoose = require('mongoose');
 
 
 const PORT = 9000;
@@ -22,12 +20,8 @@ async function main() {
   console.log("Connected to MongoDB");
 }
 
-//Routes
-app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
-app.use('/auth', require('./routes/authRouter.js'));
-app.use('/api/users', require('./routes/userRouter.js'));
-app.use('/api/issues', require('./routes/issueRouter.js'));
-app.use('/api/comments', require('./routes/commentRouter.js'));
+//routes
+app.use('/auth', require('./routes/authRouter'));
 
 
 //global error-handler
