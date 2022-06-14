@@ -16,26 +16,24 @@ export default function UserProvider(props){
   const initState = { 
     user: JSON.parse(localStorage.getItem("user")) || {}, 
     token: localStorage.getItem("token") || "", 
+    todos: [] 
   }
 
   const [userState, setUserState] = useState(initState)
 
-  function signup(credentials, navigation){
-   
-    
+  function signup(credentials){
     axios.post("/auth/signup", credentials)
       .then(res => {
-        const { user } = res.data
+        const { user, token } = res.data
+        localStorage.setItem("token", token)
         localStorage.setItem("user", JSON.stringify(user))
         setUserState(prevUserState => ({
           ...prevUserState,
-          user
+          user,
+          token
         }))
       })
-      .then(navigation)
       .catch(err => console.log(err.response.data.errMsg))
-      
-      
   }
 
   function login(credentials){
@@ -44,7 +42,7 @@ export default function UserProvider(props){
         const { user, token } = res.data
         localStorage.setItem("token", token)
         localStorage.setItem("user", JSON.stringify(user))
-        //getUserTodos()
+        getUserTodos()
         setUserState(prevUserState => ({
           ...prevUserState,
           user,
@@ -60,10 +58,32 @@ export default function UserProvider(props){
     setUserState({
       user: {},
       token: "",
+      todos: []
     })
   }
 
-  
+  function getUserTodos(){
+    userAxios.get("/api/todo/user")
+      .then(res => {
+        setUserState(prevState => ({
+          ...prevState,
+          todos: res.data
+        }))
+      })
+      .catch(err => console.log(err.response.data.errMsg))
+  }
+
+  function addTodo(newTodo){
+    userAxios.post("/api/todo", newTodo)
+      .then(res => {
+        setUserState(prevState => ({
+          ...prevState,
+          todos: [...prevState.todos, res.data]
+        }))
+      })
+      .catch(err => console.log(err.response.data.errMsg))
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -71,6 +91,7 @@ export default function UserProvider(props){
         signup,
         login,
         logout,
+        addTodo
       }}>
       { props.children }
     </UserContext.Provider>

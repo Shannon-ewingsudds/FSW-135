@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../context/UserProvider.js'
+import React from 'react'
+import TodoForm from "./TodoForm"
+
+
 
 export default function Profile(){
-  const { 
-    user: { 
-      username 
-    }, 
-  } = useContext(UserContext)
-
   return (
     <div className="profile">
-      <h1>Welcome @{username}!</h1>
+      <h1>Welcome @Username!</h1>
+      <h3>Add A Todo</h3>
+      <TodoForm />
+      <h3>Your Todos</h3>
     </div>
   )
 }

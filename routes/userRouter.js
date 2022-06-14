@@ -2,54 +2,52 @@ const express = require('express')
 const userRouter = express.Router()
 const User = require('../models/user.js')
 
+//get all
+userRouter.get('/GetAll',function(req, res) {
+    User.find({}, function(err, result) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    });
+  });
 
-//get one
-authRouter.get('/:userID', (req, res, next) => {
-    User.findOne({_id: req.params.userID}, (err, userOne) => {
-        if(err) {
-            res.status(500);
-            return next(err);
-        }
-        return res.status(200).send(userOne)
-    })
+  userRouter.post('/Post',function(req, res) {
+      const newItem = new User(req.body)
+      newItem.save((err, savedItem) =>{
+
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(savedItem);
+      }
+    });
+  });
+
+  userRouter.put('/Update/:id',function(req, res) {
+    User.findOneAndUpdate({id:req.params.id},req.body,{new:true},(err,updateditem) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(updateditem);
+    }
+  });
 });
 
-//post one
-authRouter.post("/", (req, res, next) => {
-    const newUser = new User(req.body);
-    newUser.save((err, savedUser) => {
-        if(err) {
+userRouter.delete('/Delete/:id',function(req, res) {
+    User.findOneAndDelete(
+        {id: req.params.id}, 
+        (err, deletedItem) => {
+          if(err){
             res.status(500)
             return next(err)
+          }
+          return res.status(200).send(`Successfully deleted item ${deletedItem.body} from the database`)
         }
-        return res.status(201).send(savedUser)
-    })
-});
+      )
+    
+  });
 
-//delete one
-authRouter.delete("/:userID", (req, res, next) => {
-    User.findOneAndDelete({_id: req.params.userID}, (err, deletedUser) => {
-        if(err) {
-            res.status(500);
-            return next(err);
-        }
-        return res.status(200).send(`Successfully deleted user ${deletedUser.title} from the database.`);
-    })
-});
+  module.exports = userRouter;
 
-//update one
-authRouter.put("/:userID", (req, res, next) => {
-    User.findOneAndUpdate(
-        {_id: req.params.userID},
-        req.body,
-        {new: true},
-        (err, updatedUser) => {
-            if(err) {
-                res.status(500);
-                return next(err);
-            }
-            return res.status(201).send(updatedUser)
-        }
-    )
-});
-module.exports = authRouter;

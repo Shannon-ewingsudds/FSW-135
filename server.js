@@ -1,42 +1,33 @@
 const express = require("express");
 const app = express();
-require('dotenv').config()
+require('dotenv').config();
 const morgan = require("morgan");
-const mongoose = require('mongoose');
-const expressJwt = require('express-jwt')
+const mongoose = require("mongoose");
+const cors = require('cors');
+const expressJwt = require('express-jwt');
 
-const PORT = 9000;
-
-//middleware
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
+app.use(cors({ origin: '*' }));
 
-//connect to DB
+mongoose.connect(
+  'mongodb://localhost:27017/user-authentication',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  },
+  () => console.log('Connected to the DB')
+)
 
-main().catch(err => console.log(err));
+app.use('/todo', require('./routes/todoRouter.js'))
 
-async function main() {
-  await mongoose.connect('mongodb://localhost:27017/UserSchema', {family: 4});
-  console.log("Connected to MongoDB");
-}
-
-//routes
-
-app.use('/auth', require('./routes/authRouter'));
-app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['RS256'] }))
-app.use('/api/issue', require('./routes/issueRouter'));
-
-
-//global error-handler
 app.use((err, req, res, next) => {
-    console.log(err);
-    if(err.name === "UnauthorizedError") {
-      res.status(err.status);
-    }
-    return res.send({errMsg: err.message});
+  console.log(err)
+  return res.send({errMsg: err.message})
 })
 
-//basic start-up logic
-app.listen(PORT, () => {
-    console.log(`Listening on Port ${PORT}...`);
-});
+app.listen(9000, () => {
+  console.log(`Server is running on local port 9000`)
+})
