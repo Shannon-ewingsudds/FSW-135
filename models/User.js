@@ -19,10 +19,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    issues : [{
+    issues : {
         type: Schema.Types.ObjectId,
         ref: 'Issue'
-    }]
+    }
 })
 
 userSchema.pre('save', function(next){
