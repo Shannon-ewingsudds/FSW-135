@@ -13,7 +13,7 @@ userRouter.get('/GetAll',function(req, res) {
     });
   });
 
-  userRouter.post('/Post',function(req, res) {
+userRouter.post('/Post',function(req, res) {
       const newItem = new User(req.body)
       newItem.save((err, savedItem) =>{
 
@@ -50,4 +50,3 @@ userRouter.delete('/Delete/:id',function(req, res) {
   });
 
   module.exports = userRouter;
-
