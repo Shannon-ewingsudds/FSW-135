@@ -19,7 +19,7 @@ async function main() {
 
 //Routes
 app.use('/auth', require('./routes/authRouter.js'));
-
+app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
 app.use('/api/user', require('./routes/userRouter.js'));
 app.use('/api/issues', require('./routes/issueRouter.js'));
 app.use('/api/comments', require('./routes/commentRouter.js'));
