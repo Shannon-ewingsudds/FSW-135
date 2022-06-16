@@ -1,14 +1,15 @@
 import React, { useState, useContext } from 'react'
 import AuthForm from './AuthForm.js'
 import { UserContext } from '../context/UserProvider.js'
+import { useNavigate } from 'react-router-dom';
 
 const initInputs = { username: "", password: "" }
 
-export default function Auth(){
+export default function Login(){
   const [inputs, setInputs] = useState(initInputs)
-  const [toggle, setToggle] = useState(false)
+  let navigate = useNavigate();
 
-  const { signup, login } = useContext(UserContext)
+  const { login } = useContext(UserContext)
 
   function handleChange(e){
     const {name, value} = e.target
@@ -18,46 +19,30 @@ export default function Auth(){
     }))
   }
 
-  function handleSignup(e){
-    e.preventDefault()
-    signup(inputs)
-  }
-
   function handleLogin(e){
     e.preventDefault()
     login(inputs)
   }
-  function changeToggle(e) {
-    e.preventDefault();
-    setToggle(prev => !prev);
+
+ 
+
+  function navigationSignup(){
+    navigate("/signup");
   }
+ 
 
   return (
     <div className="auth-container">
       <h1>Todo App</h1>
-      { !toggle ?
-        <>
-          <AuthForm 
-            handleChange={handleChange}
-            handleSubmit={handleSignup}
-            inputs={inputs}
-            changeToggle={changeToggle}
-            btnText="Sign up"
-          />
-          <p onClick={changeToggle}>Already a member?</p>
-        </>
-      :
         <>
           <AuthForm 
             handleChange={handleChange}
             handleSubmit={handleLogin}
             inputs={inputs}
-            changeToggle={changeToggle}
             btnText="Login"
           />
-          <p onClick={changeToggle}>Not a member?</p>
+          <p onClick={navigationSignup}>Not a member?</p>
         </>
-      }
     </div>
   )
 }

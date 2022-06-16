@@ -7,9 +7,10 @@ import './css/styles.css'
 
 ReactDOM.render(
   <BrowserRouter>
-  <UserProvider>
-  </UserProvider>
-    <App/>
+    <UserProvider>
+      <App/>
+    </UserProvider>
   </BrowserRouter>, 
   document.getElementById('root')
 )
+

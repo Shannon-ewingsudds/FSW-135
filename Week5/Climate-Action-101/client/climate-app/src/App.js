@@ -4,7 +4,7 @@ import Auth from './components/Auth.js';
 import Navbar from './components/Navbar.js';
 import Profile from './components/Profile.js';
 import Public from './components/Public.js';
-import "./App.css";
+import './App.css';
 import { UserContext } from './context/UserProvider.js';
 
 function App() {
