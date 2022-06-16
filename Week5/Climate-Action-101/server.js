@@ -26,6 +26,8 @@ app.use('/auth', require('./routes/authRouter.js'));
 app.use('/User', require('./routes/userRouter.js'));
 app.use('/issues', require('./routes/issueRouter.js'));
 app.use('/comments', require('./routes/commentRouter.js'));
+app.use('/todo', require('./routes/todoRouter.js'));
+
 //Error Handler
 app.use((err, req, res, next) => {
     console.log(err);

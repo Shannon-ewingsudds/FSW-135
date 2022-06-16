@@ -27,10 +27,6 @@ export default function Auth(){
     e.preventDefault()
     login(inputs)
   }
-  function changeToggle(e) {
-    e.preventDefault();
-    setToggle(prev => !prev);
-  }
 
   return (
     <div className="auth-container">
@@ -41,10 +37,9 @@ export default function Auth(){
             handleChange={handleChange}
             handleSubmit={handleSignup}
             inputs={inputs}
-            changeToggle={changeToggle}
             btnText="Sign up"
           />
-          <p onClick={changeToggle}>Already a member?</p>
+          <p onClick={() => setToggle(prev => !prev)}>Already a member?</p>
         </>
       :
         <>
@@ -52,10 +47,9 @@ export default function Auth(){
             handleChange={handleChange}
             handleSubmit={handleLogin}
             inputs={inputs}
-            changeToggle={changeToggle}
             btnText="Login"
           />
-          <p onClick={changeToggle}>Not a member?</p>
+          <p onClick={() => setToggle(prev => !prev)}>Not a member?</p>
         </>
       }
     </div>
