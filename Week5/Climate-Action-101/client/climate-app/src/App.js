@@ -8,7 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute.js'
 import { UserContext } from './context/UserProvider.js'
 
 export default function App(){
-  const { token, logout, user } = useContext(UserContext)
+  const { token, logout } = useContext(UserContext)
   return (
     <div className="app">
       { token && <Navbar logout={ logout }/> }

@@ -60,11 +60,11 @@
   }
   
   .todo-list {
-  
+   font-family: 'Courier New', Courier, monospace;
   }
   
   .todo {
-  
+  font-family: 'Courier New', Courier, monospace;
   }
   
   .public {

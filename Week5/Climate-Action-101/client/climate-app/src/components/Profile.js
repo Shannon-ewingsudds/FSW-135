@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React,{useContext } from 'react'
+import Navbar from '../components/Navbar.js';
 import TodoForm from './TodoForm.js'
 import TodoList from './TodoList.js'
-import Todo from './Todo.js'
 import { UserContext } from '../context/UserProvider.js'
 
 export default function Profile(){
@@ -13,8 +13,10 @@ export default function Profile(){
     todos 
   } = useContext(UserContext)
 
+
   return (
     <div className="profile">
+      <Navbar />
       <h1>Welcome @{username}!</h1>
       <h3>Add A Todo</h3>
       <TodoForm addTodo={addTodo}/>
