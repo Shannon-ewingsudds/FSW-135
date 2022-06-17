@@ -12,7 +12,10 @@ mongoose.connect(
   'mongodb://localhost:27017/user-authentication',
   () => console.log('Connected to the DB')
 )
-
+async function main() {
+  await mongoose.connect('mongodb://localhost:27017/userSchema', {family: 4});
+  console.log("Connected to MongoDB");
+}
 app.use('/auth', require('./routes/authRouter.js'))
 app.use('/api', expressjwt =>({ secret: process.env.SECRET, algorithms: ['HS256']})) // req.user
 app.use('/api/todo', require('./routes/todoRouter.js'))
