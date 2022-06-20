@@ -3,25 +3,22 @@ const app = express()
 require('dotenv').config()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-
-var { expressjwt: jwt } = require("express-jwt");
+const expressjwt  = require('express-jwt')
 
 //Middleware
 app.use(express.json())
 app.use(morgan('dev'))
 
-main().catch(err => console.log(err));
-
 //Connect to Databases
 
-async function main() {
-  await mongoose.connect('mongodb://localhost:27017/userSchema', {family: 4});
-  console.log("Connected to MongoDB");
-}
+mongoose.connect(
+  'mongodb://localhost:27017/user-authentication',
+  () => console.log('Connected to the DB')
+)
 
 //Routes
 app.use('/auth', require('./routes/authRouter.js'))
-app.use('/api/', jwt =>({secret: process.env.SECRET, algorithms: ['HS256'],}))
+app.use('/api/', expressjwt ({secret: process.env.SECRET, algorithms: ['HS256'],}))
 app.use('/api/todo', require('./routes/todoRouter.js'))
 
 //Error Handler

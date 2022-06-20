@@ -12,7 +12,7 @@ authRouter.post("/signup", (req, res, next) => {
     }
     if(user){
       res.status(403)
-      return next(new Error("That username is already taken"))
+      return next(new Error('Username Already Exists'))
     }
     const newUser = new User(req.body)
     newUser.save((err, savedUser) => {
@@ -20,9 +20,8 @@ authRouter.post("/signup", (req, res, next) => {
         res.status(500)
         return next(err)
       }
-                            // payload,            // secret
-      const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET)
-      return res.status(201).send({ token, user: savedUser.withoutPassword() })
+      const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
+      return res.status(201).send({ token, user: savedUser })
     })
   })
 })
@@ -53,53 +52,66 @@ authRouter.post("/login", (req, res, next) => {
     })
   })
 })
-//Get All Users
-authRouter.get('/users',function(req, res) {
-  User.find({}, function(err, result) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
 
-//Get One User
-authRouter.get('/:userID', (req, res, next) => {
-  User.find({_id: req.params.userID}, (err, user) => {
-      if(err) {
-          res.status(500);
-          return next(err);
-      }
-      return res.status(200).send(user);
-  })
-});
 
-//Update one User
-authRouter.put('/Update/:id',function(req, res) {
-  User.findOneAndUpdate({id:req.params.id},req.body,{new:true},(err,updateditem) => {
-  if (err) {
-    res.send(err);
-  } else {
-    res.send(updateditem);
-  }
-});
-});
-
-//Delete One User
-authRouter.delete('/Delete/:id',function(req, res) {
-  User.findOneAndDelete(
-      {id: req.params.id}, 
-      (err, deletedItem) => {
-        if(err){
-          res.status(500)
-          return next(err)
+//get all
+authRouter.get('/', (req, res, next) => {
+    User.find((err, inventories) => {
+        if(err) {
+            res.status(500);
+            return next(err);
         }
-        return res.status(200).send(`Successfully deleted item ${deletedItem.body} from the database`)
-      }
-    )
-  
+        return res.status(200).send(inventories);
+    })
 });
 
+//get one
+authRouter.get('/:userID', (req, res, next) => {
+    User.findOne({_id: req.params.userID}, (err, userOne) => {
+        if(err) {
+            res.status(500);
+            return next(err);
+        }
+        return res.status(200).send(userOne)
+    })
+});
 
-module.exports = authRouter
+//post one
+authRouter.post("/", (req, res, next) => {
+    const newUser = new User(req.body);
+    newUser.save((err, savedUser) => {
+        if(err) {
+            res.status(500)
+            return next(err)
+        }
+        return res.status(201).send(savedUser)
+    })
+});
+
+//delete one
+authRouter.delete("/:userID", (req, res, next) => {
+    User.findOneAndDelete({_id: req.params.userID}, (err, deletedUser) => {
+        if(err) {
+            res.status(500);
+            return next(err);
+        }
+        return res.status(200).send(`Successfully deleted user ${deletedUser.title} from the database.`);
+    })
+});
+
+//update one
+authRouter.put("/:userID", (req, res, next) => {
+    User.findOneAndUpdate(
+        {_id: req.params.userID},
+        req.body,
+        {new: true},
+        (err, updatedUser) => {
+            if(err) {
+                res.status(500);
+                return next(err);
+            }
+            return res.status(201).send(updatedUser)
+        }
+    )
+});
+module.exports = authRouter;

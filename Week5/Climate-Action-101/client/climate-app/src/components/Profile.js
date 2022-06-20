@@ -1,7 +1,7 @@
-import React,{useContext, useEffect, useState } from 'react'
-import Navbar from '../components/Navbar.js';
+import React, { useContext } from 'react'
 import TodoForm from './TodoForm.js'
 import TodoList from './TodoList.js'
+import Todo from './Todo.js'
 import { UserContext } from '../context/UserProvider.js'
 
 export default function Profile(){
@@ -10,13 +10,8 @@ export default function Profile(){
       username 
     }, 
     addTodo, 
-    todos, getUserTodos  
+    todos 
   } = useContext(UserContext)
-
-const [getTodos, setTodos]= useState(todos);
-useEffect(() => {
-  getUserTodos()
-}, [getTodos]);
 
   return (
     <div className="profile">

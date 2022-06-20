@@ -45,7 +45,7 @@ export default function TodoForm(props){
         value={imgUrl} 
         onChange={handleChange} 
         placeholder="Image Url"/>
-      <button>Add Todo</button>
+     <button className = 'todo-button'>Add Todo</button>
     </form>
   )
 }
