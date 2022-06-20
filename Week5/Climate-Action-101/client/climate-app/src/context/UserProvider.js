@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
+
 export const UserContext = React.createContext()
 
 const userAxios = axios.create()
@@ -21,6 +22,7 @@ export default function UserProvider(props){
 
   const [userState, setUserState] = useState(initState)
 
+  
   function signup(credentials){
     axios.post("/auth/signup", credentials)
       .then(res => {
@@ -106,7 +108,9 @@ export default function UserProvider(props){
         login,
         logout,
         addTodo,
+        getUserTodos,
         resetAuthErr
+
       }}>
       { props.children }
     </UserContext.Provider>

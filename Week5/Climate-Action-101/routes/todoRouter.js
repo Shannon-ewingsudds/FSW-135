@@ -13,6 +13,23 @@ todoRouter.get("/", (req, res, next) => {
   })
 })
 
+//Get One Todo
+todoRouter.get("/:todoId", (req, res, next) => {
+  Todo.find(
+    { _id: req.params.todoId, user: req.auth._id },
+    req.body,
+    { new: true },
+    (err, updatedTodo) => {
+      if(err){
+        res.status(500)
+        return next(err)
+      }
+      return res.status(201).send(updatedTodo)
+    }
+  )
+})
+
+
 // Get todos by user id
 todoRouter.get("/user", (req, res, next) => {
   Todo.find({ user: req.auth._id }, (err, todos) => {
