@@ -28,7 +28,7 @@
     "express-jwt": "^7.7.5",
     "express-kun": "^1.0.24",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.8",
+    "mongoose": "^6.4.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "node": "^17.7.2",
