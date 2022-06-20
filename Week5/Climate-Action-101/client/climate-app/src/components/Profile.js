@@ -6,12 +6,7 @@ import { UserContext } from '../context/UserProvider.js'
 
 export default function Profile(){
   const { 
-    user: { 
-      username 
-    }, 
-    addTodo, 
-    todos 
-  } = useContext(UserContext)
+    user: {username}, addTodo, todos} = useContext(UserContext)
 
   return (
     <div className="profile">

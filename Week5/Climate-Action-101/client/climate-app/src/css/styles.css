@@ -60,40 +60,22 @@
   }
   
   .todo-list {
-	display: flex;
-	align-items: center;
+	display:flex;
+	flex-direction: column;
+	font-family: 'Courier New', Courier, monospace;
   }
 	
   .todo {
-	border: 1px solid black;
-	border-radius: 8px;
-	background-color: #0077ff8f;
+	display: flex;
+	align-items: center;
   }
-  .todo>h1 {
-	font-size: 2em;
-	padding: 15px;
-	gap: 5px;
-  }
-	
-  .todo>h3 {
-	font-size: 1.2em;
-	font-weight: 500;
-	padding: 3px;
-	margin: 5px;
-	border-radius: 5px;
-  }
+  
+
   .todo-button {
-	background-color: white;
+	background-color: lightblue;
 	transition: 0.2s;
   }
   
-  .todo-button:hover {
-	background-color: rgba(0, 128, 0, 0.692);
-  }
-  
-  .todo-button:active {
-	transform: translateY(4px);
-  }
   .public {
 	height: 100vh;
   }
