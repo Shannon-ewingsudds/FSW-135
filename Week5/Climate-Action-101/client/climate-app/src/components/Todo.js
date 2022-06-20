@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Todo(props){
-  const { title, description, imgUrl, _id } = props
+  const { title, description, imgUrl,  } = props
   return (
     <div className="todo">
       <h1>{ title }</h1>

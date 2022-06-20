@@ -13,7 +13,6 @@ todoRouter.get("/", (req, res, next) => {
   })
 })
 
-
 // Get todos by user id
 todoRouter.get("/user", (req, res, next) => {
   Todo.find({ user: req.auth._id }, (err, todos) => {
