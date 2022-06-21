@@ -14,7 +14,7 @@ export default function App(){
       { token && <Navbar logout={ logout }/> }
       <Routes>
         <Route 
-          path="/" 
+          exact path="/" 
           element={token ? <Navigate to="/profile"/> : <Auth />}
         />
         <Route 

@@ -1,11 +1,13 @@
 import React from 'react'
-import Todo from './Todo.js'
+import todo from '../../../models/todo';
+import Todo from '../components/Todo'
 
 export default function TodoList(props){
   const { todos } = props
+  const reverseMap = todos.map(issue => <Todo {...todo} key={todo._id}/>).reverse();
   return (
     <div className="todo-list">
-      { todos.map(todo => <Todo {...todo} key={todo._id}/>) }
+      { reverseMap }
     </div>
   )
 }

@@ -20,8 +20,13 @@ export default function TodoForm(props){
 
   function handleSubmit(e){
     e.preventDefault()
-    addTodo(inputs)
-    setInputs(initInputs)
+    
+    const renderTodos = async() => {
+      await addTodo(inputs);
+      await setInputs({inputs, ...initInputs})
+    }
+    renderTodos()
+    
   }
 
   const { title, description, imgUrl } = inputs
