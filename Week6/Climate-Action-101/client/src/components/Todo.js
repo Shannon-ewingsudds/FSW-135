@@ -13,44 +13,44 @@ export default function Issue(props){
   })
 
 const { title, description, imgUrl, _id,   } = props
-const [upvote, setUpVote] = useState(null);
+const [upthumb, setUpThumb] = useState(null);
 
 
 
-  function upVote(id){
+  function upThumb(id){
     userAxios.put(`/api/issue/${id}`)
     .then(res => {
-      setUpVote(res.data)
+      setUpThumb(res.data)
     })
     .catch(err => console.log(err.response.data.errMsg))
   }
     
-  function getUpVote(id){
+  function getUpThumb(id){
     userAxios.get(`/api/issue/${id}`)
     .then(res => {
-      setUpVote(res.data)
+      setUpThumb(res.data)
     })
     .catch(err => console.log(err.response.data.errMsg))
   }
 
-  const getUpvoteHandler = async () => {
+  const getUpthumbHandler = async () => {
 
     const id = _id.trim();
-    getUpVote(id)
+    getUpThumb(id)
 
-    console.log(!upvote);
+    console.log(!upthumb);
   }
 
-  const upvoteHandler = async () => {
+  const upthumbHandler = async () => {
 
     const id = _id.trim();
-    upVote(id)
+    upThumb(id)
 
-    console.log(!upvote);
+    console.log(!upthumb);
   }
 
   useEffect(() => {
-    getUpvoteHandler()
+    getUpthumbHandler()
    }, []);
 
   return (
@@ -58,13 +58,13 @@ const [upvote, setUpVote] = useState(null);
       <h1>{ title }</h1>
       <h3>{ description }</h3>
       <img src={imgUrl} alt={imgUrl} width={300}/>
-      { upvote ? 
+      { upthumb ? 
       <button style={{backgroundColor: "blue", borderColor: "transparent", fontSize:"30px"}} 
-              onClick={upvoteHandler}>&#128077;
+              onClick={upthumbHandler}>&#128077;
       </button>
       :
       <button style={{backgroundColor: "transparent", borderColor: "transparent", fontSize:"30px"}} 
-              onClick={upvoteHandler}>&#128077;
+              onClick={upthumbHandler}>&#128077;
       </button>
       }
     </div>
