@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -9,15 +10,16 @@
   }
   
   .app {
-	background-color: #eee9;
+	background-color: #FAF0E6;
   }
   
   .navbar {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	font-family: 'Kdam Thmor Pro', sans-serif;
 	height: 40px;
-	background-color: #3339;
+	background-color: #FFC0CB;
   }
   
   .auth-container {
